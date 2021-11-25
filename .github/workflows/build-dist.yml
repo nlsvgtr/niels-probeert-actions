@@ -21,14 +21,6 @@ jobs:
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5
-
-
-      - run: echo 
-
-      # set tagname
-      - run: echo ${{ env.TAG_NAME }}
-        env:
-          TAG_NAME: "${{ ( steps.branch-name.outputs.current_branch == 'development' && 'alpha' ) || ( steps.branch-name.outputs.current_branch == 'release' && 'beta' ) || 'latest' }}"
           
       # set version number
       - run: npm run set-publish-version
@@ -36,7 +28,8 @@ jobs:
           GITHUB_BRANCH_NAME: "${{ steps.branch-name.outputs.current_branch }}"
 
       # npm publish
-      - run: npm publish --tag ${ env.TAG_NAME }
+      - run: npm publish --tag ${{ env.TAG_NAME }}
         env:
+          TAG_NAME: "${{ ( steps.branch-name.outputs.current_branch == 'development' && 'alpha' ) || ( steps.branch-name.outputs.current_branch == 'release' && 'beta' ) || 'latest' }}"
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
