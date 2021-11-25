@@ -23,7 +23,7 @@ jobs:
         uses: tj-actions/branch-names@v5
 
 
-      - run: echo ${{ steps.branch-name.outputs.current_branch }}
+      - run: echo 
 
       # set tagname
       - run: echo ${{ env.TAG_NAME }}
@@ -32,6 +32,8 @@ jobs:
           
       # set version number
       - run: npm run set-publish-version
+        env:
+          GITHUB_BRANCH_NAME: "${{ steps.branch-name.outputs.current_branch }}"
 
       # npm publish
 #      - run: npm publish --tag ${ env.TAG_NAME }
