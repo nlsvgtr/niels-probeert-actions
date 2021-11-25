@@ -1,7 +1,10 @@
 name: learn-github-actions
 on:
   push
-    branches: [ 'master', 'release', 'development' ]
+    branches:
+      - 'master'
+      - 'release'
+      - 'development'
 
 jobs:
   check-bats-version:
