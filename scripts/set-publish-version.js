@@ -24,7 +24,7 @@ async function updateVersionNumber() {
     if (!versionLine || !version) throw new Error('Version not found');
 
     // get current published version
-    let { stdout, stderr } = await exec('npm view --json openstad-components');
+    let { stdout, stderr } = await exec('npm view --json niels-probeert-actions');
     let info = stdout && stdout.toString();
     info = JSON.parse(info)
     let publishedVersion = info['dist-tags'][tag];
