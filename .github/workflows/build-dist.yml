@@ -26,18 +26,18 @@ jobs:
       - run: echo ${ steps.branch-name.outputs.current_branch }
 
       # set tagname
-      - env:
+      - run: echo env.TAG_NAME
+        env:
           TAG_NAME: 'latest'
           if: steps.branch-name.outputs.current_branch == 'master'
-      - env:
+        env:
           TAG_NAME: 'beta'
           if: steps.branch-name.outputs.current_branch == 'release'
-      - env:
+        env:
           TAG_NAME: 'alpha'
           if: steps.branch-name.outputs.current_branch == 'development'
-
-      - run: echo ${ env.TAG_NAME }
-
+      
+          
       # set version number
       - run: npm run set-publish-version
 
