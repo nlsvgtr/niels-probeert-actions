@@ -8,6 +8,7 @@ jobs:
   check-bats-version:
     runs-on: ubuntu-latest
     steps:
+
       # init
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -15,16 +16,33 @@ jobs:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
+
       # extract branch name
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
-      - run: echo ${ BRANCH_NAME }
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+
+
+      - run: echo ${ steps.branch-name.outputs.current_branch }
+
+      # set tagname
+      - env:
+          TAG_NAME: 'latest'
+          if: steps.branch-name.outputs.current_branch == 'master'
+      - env:
+          TAG_NAME: 'beta'
+          if: steps.branch-name.outputs.current_branch == 'release'
+      - env:
+          TAG_NAME: 'alpha'
+          if: steps.branch-name.outputs.current_branch == 'development'
+
+      - run: echo ${ env.TAG_NAME }
+
       # set version number
       - run: npm run set-publish-version
+
       # npm publish
-      - run: npm publish --tag ${ BRANCH_NAME }
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#      - run: npm publish --tag ${ env.TAG_NAME }
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
