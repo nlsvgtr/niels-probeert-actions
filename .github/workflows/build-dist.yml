@@ -23,7 +23,7 @@ jobs:
         uses: tj-actions/branch-names@v5
 
 
-      - run: echo ${ steps.branch-name.outputs.current_branch }
+      - run: echo ${{ steps.branch-name.outputs.current_branch }}
 
       # set tagname
       - run: echo env.TAG_NAME
