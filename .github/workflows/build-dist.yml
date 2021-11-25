@@ -30,10 +30,8 @@ jobs:
         env:
           TAG_NAME: 'latest'
           if: steps.branch-name.outputs.current_branch == 'master'
-        env:
           TAG_NAME: 'beta'
           if: steps.branch-name.outputs.current_branch == 'release'
-        env:
           TAG_NAME: 'alpha'
           if: steps.branch-name.outputs.current_branch == 'development'
       
