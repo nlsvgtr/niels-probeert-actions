@@ -1,10 +1,8 @@
 name: learn-github-actions
+
 on:
   push:
-    branches:
-      - 'master'
-      - 'release'
-      - 'development'
+    branches: ['master', 'release', 'development']
 
 jobs:
   check-bats-version:
@@ -22,7 +20,9 @@ jobs:
         shell: bash
         run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-      - run cehco ${ BRANCH_NAME }
+      - run: echo ${ BRANCH_NAME }
+      # set version number
+      - run: npm run set-publish-version
       # npm publish
       - run: npm publish --tag ${ BRANCH_NAME }
         env:
